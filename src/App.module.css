@@ -1,20 +1,53 @@
-.itemTitle {
-	width: 70%;
-	float: inline-start;
-	margin-left: 10px;
-	margin-bottom: 0.3125em;
+body {
+	margin: 0;
+	font-family: Arial, sans-serif;
+	background: linear-gradient(to bottom, #f0f8ff, #ffe4e1);
+}
+
+.app {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	padding-top: 20px;
+	margin-left: 500px;
+}
+
+form {
+	display: flex;
+	justify-content: center;
+	margin-bottom: 20px;
+}
+
+input[type='text'] {
+	width: 300px;
+	padding: 10px;
 	border: 1px solid #1a85ff;
+	border-radius: 4px;
+	font-size: 16px;
+	outline: none;
+}
+
+ol {
+	list-style: none;
+	padding: 0;
+	width: 100%;
+	max-width: 400px;
+}
+
+.itemTitle {
+	background-color: #fff;
+	border: 1px solid #e0e0e0;
+	padding: 10px;
+	margin-bottom: 10px;
 	position: relative;
-	padding-left: 50px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
 }
 
 .itemTitle::before {
 	content: attr(data-index);
 	position: absolute;
-	left: 15px;
-	top: 50%;
-	transform: translateY(-50%);
-	color: #4db8ff; /* Цвет номера */
 }
 .itemTitle_text {
 	width: 225px;
@@ -27,9 +60,41 @@
 	outline: none;
 }
 
-.completedItem {
-	display: flex;
-	flex-direction: column;
-	color: #9e9e9e;
-	font-size: 0.75em;
+.button {
+	margin-left: 10px;
+	padding: 10px 15px;
+	border: none;
+	border-radius: 4px;
+	background-color: #1a85ff;
+	color: white;
+	cursor: pointer;
+	transition: background-color 0.3s;
+}
+
+button:hover {
+	background-color: #0056b3;
+}
+
+.button1 {
+	margin-left: 10px;
+	background-color: #1a85ff;
+	color: white;
+	border: none;
+	border-radius: 4px;
+}
+
+.button1:hover {
+	background-color: #0056b3;
+}
+
+.button2 {
+	background-color: #dc3545;
+	margin-left: 10px;
+	color: white;
+	border: none;
+	border-radius: 4px;
+}
+
+.button2:hover {
+	background-color: #c82333;
 }

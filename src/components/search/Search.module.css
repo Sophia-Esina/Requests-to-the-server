@@ -1,0 +1,13 @@
+.input {
+	width: 100%;
+	border: none;
+	border-bottom: 2px solid rgba(0, 0, 0, 0.12);
+	color: #202020;
+	font-size: 18px;
+	outline: transparent;
+	transition: border-color 0.5s;
+}
+
+.input:focus {
+	border-color: rgb(186, 40, 40);
+}
