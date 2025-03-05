@@ -19,12 +19,16 @@ export default function App() {
 	const [searchTerm, setSearchTerm] = useState('');
 	const [isSorted, setIsSorted] = useState(false);
 
-	const filteredTodos = todos.filter((todo) =>
+	const filteredTodos = Object.entries(todos).filter(([id, todo]) =>
 		todo.text.toLowerCase().includes(searchTerm.toLowerCase()),
 	);
 
 	const sortedTodos = isSorted
-		? [...filteredTodos].sort((a, b) => a.text.localeCompare(b.text))
+		? [...filteredTodos].sort((a, b) => {
+				const textA = a[1].text.toLowerCase();
+				const textB = b[1].text.toLowerCase();
+				return textA.localeCompare(textB);
+			})
 		: filteredTodos;
 
 	return (
@@ -47,7 +51,7 @@ export default function App() {
 			<Search onSearch={setSearchTerm} />
 			<Sort onSort={() => setIsSorted(!isSorted)} isSorted={isSorted} />
 			<ol>
-				{sortedTodos.map(({ id, text }) => (
+				{sortedTodos.map(([id, { text }]) => (
 					<li key={id} className={styles.itemTitle}>
 						{text}
 						<div>

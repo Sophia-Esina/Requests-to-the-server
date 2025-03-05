@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { ref, push } from 'firebase/database';
+import { db } from '../firebase';
 
 export default function useRequestAddTodoForm(setRefreshTodos) {
 	const [isCreating, setIsCreating] = useState(false);
@@ -8,14 +10,10 @@ export default function useRequestAddTodoForm(setRefreshTodos) {
 		event.preventDefault();
 		setIsCreating(true);
 
-		fetch('http://localhost:3000/todoList', {
-			method: 'POST',
-			headers: { 'Content-Type': 'application/json;charset=utf-8' },
-			body: JSON.stringify({ text: todoItem }),
+		const todosDbRef = ref(db, 'TodosList');
+		push(todosDbRef, {
+			text: todoItem,
 		})
-			.then((response) => {
-				response.json();
-			})
 			.then(() => {
 				setTodoItem('');
 				setRefreshTodos((prev) => !prev);

@@ -66,12 +66,7 @@
 	height: 30px;
 	left: 0;
 	top: 0;
-	background-image: url('../../assets/submit.svg');
 	background-size: cover;
-}
-
-.close::after {
-	background-image: url('../../assets/close.svg');
 }
 
 .add:hover,

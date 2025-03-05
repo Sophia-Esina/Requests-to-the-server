@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { ref, remove } from 'firebase/database';
+import { db } from '../firebase';
 
 export default function useRequestDeleteTodoForm(setRefreshTodos) {
 	const [isDeleting, setIsDeleting] = useState(false);
@@ -6,9 +8,9 @@ export default function useRequestDeleteTodoForm(setRefreshTodos) {
 	const requestDeleteTodoForm = (id) => {
 		setIsDeleting(true);
 
-		fetch(`http://localhost:3000/todoList/${id}`, {
-			method: 'DELETE',
-		})
+		const deleteTodoDbRef = ref(db, `TodosList/${id}`);
+
+		remove(deleteTodoDbRef)
 			.then(() => {
 				setRefreshTodos((prev) => !prev);
 			})
