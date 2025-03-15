@@ -1,8 +1,7 @@
 import { useState } from 'react';
 
-export default function useRequestUpdateTodoForm(setRefreshTodos) {
+export function useRequestUpdateTodoForm(setRefreshTodos) {
 	const [isUpdating, setIsUpdating] = useState(false);
-	// const [updateTodo, setUpdateTodo] = useState('');
 
 	const requestUpdateTodoItem = (id, value) => {
 		setIsUpdating(true);
@@ -13,7 +12,6 @@ export default function useRequestUpdateTodoForm(setRefreshTodos) {
 		})
 			.then((response) => response.json())
 			.then(() => {
-				// setUpdateTodo('');
 				setRefreshTodos((prev) => !prev);
 			})
 			.catch((error) => console.error('Error adding todo:', error))
