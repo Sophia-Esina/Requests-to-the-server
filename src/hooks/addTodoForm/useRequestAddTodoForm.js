@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-export default function useRequestAddTodoForm(setRefreshTodos) {
+export function useRequestAddTodoForm(setRefreshTodos) {
 	const [isCreating, setIsCreating] = useState(false);
 	const [todoItem, setTodoItem] = useState('');
 

@@ -1,16 +1,16 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import debounce from '../../utils/debounce';
 import styles from './Search.module.css';
+import { useTodoContext } from '../../AppContext/useTodoContext';
 
-export default function Search({ onSearch }) {
-	const [inputValue, setInputValue] = useState('');
+export default function Search() {
+	const { setSearchTerm } = useTodoContext();
 
 	const debouncedSearch = debounce((value) => {
-		onSearch(value);
+		setSearchTerm(value);
 	}, 1000);
 
 	const handleChange = (e) => {
-		setInputValue(e.target.value);
 		debouncedSearch(e.target.value);
 	};
 
@@ -18,7 +18,7 @@ export default function Search({ onSearch }) {
 		return () => {
 			debouncedSearch.cancel();
 		};
-	}, []);
+	}, [debouncedSearch]);
 
 	return (
 		<form className={styles.form}>
@@ -26,7 +26,6 @@ export default function Search({ onSearch }) {
 				className={styles.input}
 				placeholder="Поиск..."
 				type="text"
-				value={inputValue}
 				onChange={handleChange}
 			/>
 		</form>

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-export default function useRequestDeleteTodoForm(setRefreshTodos) {
+export function useRequestDeleteTodoForm(setRefreshTodos) {
 	const [isDeleting, setIsDeleting] = useState(false);
 
 	const requestDeleteTodoForm = (id) => {
