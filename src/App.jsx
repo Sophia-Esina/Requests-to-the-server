@@ -1,25 +1,40 @@
+import { addTodo, deleteTodo, getTodo, updateTodo } from './actions';
 import styles from './App.module.css';
-import useRequestGetTodoForm from './components/getTodoForm/useRequestGetTodoForm';
-import useRequestAddTodoForm from './components/addTodoForm/useRequestAddTodoForm';
-import useRequestUpdateTodoForm from './components/updateTodoForm/useRequestUpdateTodoForm';
-import useRequestDeleteTodoForm from './components/deleteTodoForm/useRequestDeleteTodoForm';
 import Search from './components/search/Search';
 import Sort from './components/sort/Sort';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 export default function App() {
-	const { todos, setRefreshTodos } = useRequestGetTodoForm();
-	const { requestAddTodoForm, isCreating, todoItem, setTodoItem } =
-		useRequestAddTodoForm(setRefreshTodos);
-	const { requestUpdateTodoItem: requestUpdateTodoForm } =
-		useRequestUpdateTodoForm(setRefreshTodos);
-	const { requestDeleteTodoForm, isDeleting } =
-		useRequestDeleteTodoForm(setRefreshTodos);
-
+	const dispatch = useDispatch();
 	const [searchTerm, setSearchTerm] = useState('');
 	const [isSorted, setIsSorted] = useState(false);
+	const [newTodoText, setNewTodoText] = useState('');
 
-	const filteredTodos = todos.filter((todo) =>
+	const todo = useSelector((state) => state.todoReducer);
+	console.log('todo', todo);
+
+	useEffect(() => {
+		dispatch(getTodo());
+	}, [dispatch]);
+
+	const onAddTodo = (event) => {
+		event.preventDefault();
+		if (newTodoText.trim()) {
+			dispatch(addTodo(newTodoText));
+			setNewTodoText('');
+		}
+	};
+
+	const onUpdateTodo = (id, newText) => {
+		dispatch(updateTodo(id, newText));
+	};
+
+	const onDeleteTodo = (id) => {
+		dispatch(deleteTodo(id));
+	};
+
+	const filteredTodos = todo.filter((todo) =>
 		todo.text.toLowerCase().includes(searchTerm.toLowerCase()),
 	);
 
@@ -29,18 +44,14 @@ export default function App() {
 
 	return (
 		<div className={styles.app}>
-			<form onSubmit={requestAddTodoForm}>
+			<form onSubmit={onAddTodo}>
 				<input
 					type="text"
 					placeholder="Введите название дела"
-					value={todoItem}
-					onChange={(event) => setTodoItem(event.target.value)}
+					value={newTodoText}
+					onChange={(event) => setNewTodoText(event.target.value)}
 				/>
-				<button
-					className={styles.button}
-					onSubmit={requestAddTodoForm}
-					disabled={isCreating}
-				>
+				<button className={styles.button} onClick={onAddTodo}>
 					Добавить
 				</button>
 			</form>
@@ -56,7 +67,7 @@ export default function App() {
 								onClick={() => {
 									const newText = prompt('Измените текст дела:', text);
 									if (newText) {
-										requestUpdateTodoForm(id, newText);
+										onUpdateTodo(id, newText);
 									}
 								}}
 							>
@@ -65,9 +76,8 @@ export default function App() {
 							<button
 								className={styles.button2}
 								onClick={() => {
-									requestDeleteTodoForm(id);
+									onDeleteTodo(id);
 								}}
-								disabled={isDeleting}
 							>
 								Удалить
 							</button>
