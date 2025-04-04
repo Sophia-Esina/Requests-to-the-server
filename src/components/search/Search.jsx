@@ -1,24 +1,24 @@
-import { useEffect, useState } from 'react';
 import debounce from '../../utils/debounce';
 import styles from './Search.module.css';
+import { useDispatch } from 'react-redux';
+import { searchTerm } from '../../actions';
+import { useCallback } from 'react';
 
-export default function Search({ onSearch }) {
-	const [inputValue, setInputValue] = useState('');
+export default function Search() {
+	const dispatch = useDispatch();
+	let inputValue = '';
 
-	const debouncedSearch = debounce((value) => {
-		onSearch(value);
-	}, 1000);
+	const debouncedSearch = useCallback(
+		debounce((value) => {
+			dispatch(searchTerm(value));
+		}, 1000),
+		[dispatch],
+	);
 
 	const handleChange = (e) => {
-		setInputValue(e.target.value);
-		debouncedSearch(e.target.value);
+		inputValue = e.target.value;
+		debouncedSearch(inputValue);
 	};
-
-	useEffect(() => {
-		return () => {
-			debouncedSearch.cancel();
-		};
-	}, []);
 
 	return (
 		<form className={styles.form}>
@@ -26,7 +26,6 @@ export default function Search({ onSearch }) {
 				className={styles.input}
 				placeholder="Поиск..."
 				type="text"
-				value={inputValue}
 				onChange={handleChange}
 			/>
 		</form>

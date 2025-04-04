@@ -1,9 +1,13 @@
-import { createStore, combineReducers, applyMiddleware } from 'redux';
-import { todoReducer } from './reducer';
+import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
+import { todoReducer } from './reducers/todoReducer';
 import { thunk } from 'redux-thunk';
+import { filterReducer } from './reducers/filterReducer';
 
 const reducer = combineReducers({
-	todoReducer,
+	todos: todoReducer,
+	filters: filterReducer,
 });
 
-export const store = createStore(reducer, applyMiddleware(thunk));
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
+export const store = createStore(reducer, composeEnhancers(applyMiddleware(thunk)));

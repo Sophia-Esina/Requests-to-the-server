@@ -7,12 +7,9 @@ import { useDispatch, useSelector } from 'react-redux';
 
 export default function App() {
 	const dispatch = useDispatch();
-	const [searchTerm, setSearchTerm] = useState('');
-	const [isSorted, setIsSorted] = useState(false);
 	const [newTodoText, setNewTodoText] = useState('');
-
-	const todo = useSelector((state) => state.todoReducer);
-	console.log('todo', todo);
+	const todos = useSelector((state) => state.todos);
+	const { searchTerm: searchInput, isSorted } = useSelector((state) => state.filters);
 
 	useEffect(() => {
 		dispatch(getTodo());
@@ -34,8 +31,8 @@ export default function App() {
 		dispatch(deleteTodo(id));
 	};
 
-	const filteredTodos = todo.filter((todo) =>
-		todo.text.toLowerCase().includes(searchTerm.toLowerCase()),
+	const filteredTodos = todos.filter((todo) =>
+		todo.text.toLowerCase().includes(searchInput.toLowerCase()),
 	);
 
 	const sortedTodos = isSorted
@@ -55,8 +52,8 @@ export default function App() {
 					Добавить
 				</button>
 			</form>
-			<Search onSearch={setSearchTerm} />
-			<Sort onSort={() => setIsSorted(!isSorted)} isSorted={isSorted} />
+			<Search />
+			<Sort />
 			<ol>
 				{sortedTodos.map(({ id, text }) => (
 					<li key={id} className={styles.itemTitle}>
